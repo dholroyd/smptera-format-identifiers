@@ -6,5 +6,3 @@ Format Identifier data downloaded from https://smpte-ra.org/registered-mpeg-ts-i
 This repo exists just to give versioned access to this publicly available dataset at a stable location, with the goal of making programatic consumption easier.  I make no claim to own the data.
 
 At time of writing, the most recent entry has a date of 2025-05-01.
-
-I indend to update this dataset from time to time, but there is currently no automated process for this.  Please submit an issue if you see that the file is out of date.
