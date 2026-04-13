@@ -1,0 +1,40 @@
+name: Update Format Identifiers CSV
+
+on:
+  schedule:
+    # 1st of each month at 09:00 UTC
+    - cron: '0 9 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run update script
+        run: ./update.sh
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet Public.csv; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create pull request
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: update-csv
+          commit-message: Update Public.csv from SMPTE RA
+          title: Update Public.csv from SMPTE RA
+          body: |
+            Automated update of Format Identifier data from
+            https://smpte-ra.org/registered-mpeg-ts-ids
